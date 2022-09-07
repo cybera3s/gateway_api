@@ -11,4 +11,9 @@ class UserSerializer(serializers.ModelSerializer):
         """
         overwrites save method to implement on the fly create and update
         """
+        validated_data = {**self.validated_data, **kwargs}
+        # updating
+        if self.instance is not None:
+            self.instance = User(**validated_data)
+            
         return self.instance
