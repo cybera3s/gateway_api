@@ -8,16 +8,15 @@ from rest_framework.decorators import action
 
 class UserViewSet(viewsets.ModelViewSet):
     """
-        Managing Users
+    Managing Users
     """
+
     queryset = User.objects.all()
     serializer_class = UserSerializer
-    http_method_names = ['get', 'post', 'put', 'delete']
-    
-   
+    http_method_names = ["get", "post", "put", "delete"]
+
     def perform_destroy(self, instance):
         """
-            do not delete instance from database just return False
+        do not delete instance from database just return False
         """
         return False
-    
