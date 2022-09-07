@@ -1,0 +1,422 @@
+{
+	"info": {
+		"_postman_id": "05712306-6b92-4d18-8b63-353957f85029",
+		"name": "Gateway API",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "get all users",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status Code test\", function () {",
+							"    pm.response.to.have.status(200);",
+							"    pm.response.to.not.be.error;",
+							"});",
+							"",
+							"",
+							"pm.test(\"Body matches string\", function () {",
+							"    pm.expect(pm.response.text())",
+							"    .to",
+							"    .include('[{\"username\":\"admin\",\"first_name\":\"\",\"last_name\":\"\",\"email\":\"admin@admin.com\"}]');",
+							"",
+							"    pm.response.to.not.have.jsonBody(\"error\");",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8000/api/users/",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8000",
+					"path": [
+						"api",
+						"users",
+						""
+					]
+				}
+			},
+			"response": [
+				{
+					"name": "get all users success",
+					"originalRequest": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8000/api/users/",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8000",
+							"path": [
+								"api",
+								"users",
+								""
+							]
+						}
+					},
+					"status": "OK",
+					"code": 200,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "Date",
+							"value": "Wed, 07 Sep 2022 17:01:51 GMT"
+						},
+						{
+							"key": "Server",
+							"value": "WSGIServer/0.2 CPython/3.9.13"
+						},
+						{
+							"key": "Content-Type",
+							"value": "application/json"
+						},
+						{
+							"key": "Vary",
+							"value": "Accept, Cookie"
+						},
+						{
+							"key": "Allow",
+							"value": "GET, POST"
+						},
+						{
+							"key": "X-Frame-Options",
+							"value": "DENY"
+						},
+						{
+							"key": "Content-Length",
+							"value": "79"
+						},
+						{
+							"key": "X-Content-Type-Options",
+							"value": "nosniff"
+						},
+						{
+							"key": "Referrer-Policy",
+							"value": "same-origin"
+						},
+						{
+							"key": "Cross-Origin-Opener-Policy",
+							"value": "same-origin"
+						}
+					],
+					"cookie": [],
+					"body": "[\n    {\n        \"username\": \"admin\",\n        \"first_name\": \"\",\n        \"last_name\": \"\",\n        \"email\": \"admin@admin.com\"\n    }\n]"
+				}
+			]
+		},
+		{
+			"name": "Create a New User",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status Code test\", function () {",
+							"    pm.response.to.have.status(201);",
+							"    pm.response.to.not.be.error;",
+							"});",
+							"",
+							"",
+							"pm.test(\"Body matches string\", function () {",
+							"",
+							"    const responseJson = pm.response.json();",
+							"    pm.expect(responseJson.username).to.eql('test');",
+							"    pm.expect(responseJson.first_name).to.eql('test');",
+							"    pm.expect(responseJson.last_name).to.eql('test');",
+							"    pm.expect(responseJson.email).to.eql(\"admin@ademin.com\");",
+							"",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"username\": \"test\",\n    \"password\": \"1234\",\n    \"email\": \"admin@ademin.com\",\n    \"first_name\": \"test\",\n    \"last_name\": \"test\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8000/api/users/",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8000",
+					"path": [
+						"api",
+						"users",
+						""
+					]
+				}
+			},
+			"response": [
+				{
+					"name": "Create a New User returns created user",
+					"originalRequest": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"username\": \"test\",\n    \"password\": \"1234\",\n    \"email\": \"admin@ademin.com\",\n    \"first_name\": \"test\",\n    \"last_name\": \"test\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8000/api/users/",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8000",
+							"path": [
+								"api",
+								"users",
+								""
+							]
+						}
+					},
+					"status": "Created",
+					"code": 201,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "Date",
+							"value": "Wed, 07 Sep 2022 16:47:42 GMT"
+						},
+						{
+							"key": "Server",
+							"value": "WSGIServer/0.2 CPython/3.9.13"
+						},
+						{
+							"key": "Content-Type",
+							"value": "application/json"
+						},
+						{
+							"key": "Vary",
+							"value": "Accept, Cookie"
+						},
+						{
+							"key": "Allow",
+							"value": "GET, POST"
+						},
+						{
+							"key": "X-Frame-Options",
+							"value": "DENY"
+						},
+						{
+							"key": "Content-Length",
+							"value": "85"
+						},
+						{
+							"key": "X-Content-Type-Options",
+							"value": "nosniff"
+						},
+						{
+							"key": "Referrer-Policy",
+							"value": "same-origin"
+						},
+						{
+							"key": "Cross-Origin-Opener-Policy",
+							"value": "same-origin"
+						}
+					],
+					"cookie": [],
+					"body": "{\n    \"username\": \"test\",\n    \"first_name\": \"test\",\n    \"last_name\": \"test\",\n    \"email\": \"admin@ademin.com\"\n}"
+				},
+				{
+					"name": "create a user without username field will fail",
+					"originalRequest": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"password\": \"1234\",\n    \"email\": \"admin@ademin.com\",\n    \"first_name\": \"test\",\n    \"last_name\": \"test\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8000/api/users/",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8000",
+							"path": [
+								"api",
+								"users",
+								""
+							]
+						}
+					},
+					"status": "Bad Request",
+					"code": 400,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "Date",
+							"value": "Wed, 07 Sep 2022 16:48:46 GMT"
+						},
+						{
+							"key": "Server",
+							"value": "WSGIServer/0.2 CPython/3.9.13"
+						},
+						{
+							"key": "Content-Type",
+							"value": "application/json"
+						},
+						{
+							"key": "Vary",
+							"value": "Accept, Cookie"
+						},
+						{
+							"key": "Allow",
+							"value": "GET, POST"
+						},
+						{
+							"key": "X-Frame-Options",
+							"value": "DENY"
+						},
+						{
+							"key": "Content-Length",
+							"value": "40"
+						},
+						{
+							"key": "X-Content-Type-Options",
+							"value": "nosniff"
+						},
+						{
+							"key": "Referrer-Policy",
+							"value": "same-origin"
+						},
+						{
+							"key": "Cross-Origin-Opener-Policy",
+							"value": "same-origin"
+						}
+					],
+					"cookie": [],
+					"body": "{\n    \"username\": [\n        \"This field is required.\"\n    ]\n}"
+				}
+			]
+		},
+		{
+			"name": "Update a existing User by ID",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status Code test\", function () {",
+							"    pm.response.to.have.status(200);",
+							"    pm.response.to.not.be.error;",
+							"});",
+							"",
+							"",
+							"pm.test(\"Body matches string\", function () {",
+							"",
+							"    const responseJson = pm.response.json();",
+							"    pm.expect(responseJson.username).to.eql('JohnDoe');",
+							"    pm.expect(responseJson.first_name).to.eql('John');",
+							"    pm.expect(responseJson.last_name).to.eql('Doe');",
+							"    pm.expect(responseJson.email).to.eql(\"johndoe@email.com\");",
+							"",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n  \"username\": \"JohnDoe\",\n  \"first_name\": \"John\",\n  \"last_name\": \"Doe\",\n  \"email\": \"johndoe@email.com\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8000/api/users/1/",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8000",
+					"path": [
+						"api",
+						"users",
+						"1",
+						""
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Delete a user by id",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status Code test\", function () {",
+							"    pm.response.to.have.status(204);",
+							"    pm.response.to.not.be.error;",
+							"});",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8000/api/users/1/",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8000",
+					"path": [
+						"api",
+						"users",
+						"1",
+						""
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
