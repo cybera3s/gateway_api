@@ -109,3 +109,18 @@ class UserViewSet(viewsets.ModelViewSet):
             return Response(e.details(), status=status_code)
 
         return Response(status=status.HTTP_204_NO_CONTENT)
+
+    @staticmethod
+    def handle_error(err: Exception) -> Response:
+        """
+            get Exception object and returns response
+            with Appropriate status code
+        """
+
+        # default status code 400
+        status_code = status.HTTP_400_BAD_REQUEST
+
+        if err.code() == StatusCode.NOT_FOUND:
+            status_code = status.HTTP_404_NOT_FOUND
+
+        return Response(err.details(), status=status_code)
