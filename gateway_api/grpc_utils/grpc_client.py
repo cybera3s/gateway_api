@@ -1,7 +1,7 @@
 import grpc
 
-from .user_proto import user_pb2
-from .user_proto.user_pb2_grpc import UserControllerStub
+from .user_proto_code import user_pb2
+from .user_proto_code.user_pb2_grpc import UserControllerStub
 from api.models import User
 
 
