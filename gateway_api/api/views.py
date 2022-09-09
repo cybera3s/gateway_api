@@ -43,13 +43,7 @@ class UserViewSet(viewsets.ModelViewSet):
         try:
             obj = self.grpc_client.get_user_by_id(int(kwargs.get('pk')))
         except Exception as e:
-            # default status code 400
-            status_code = status.HTTP_400_BAD_REQUEST
-
-            if e.code() == StatusCode.NOT_FOUND:
-                status_code = status.HTTP_404_NOT_FOUND
-
-            return Response(e.details(), status=status_code)
+            return self.handle_error(e)
 
         serializer = self.get_serializer(obj)
         return Response(serializer.data)
@@ -61,13 +55,7 @@ class UserViewSet(viewsets.ModelViewSet):
         try:
             new_user = self.grpc_client.create_new_user(User(**request.data))
         except Exception as e:
-            # default status code 400
-            status_code = status.HTTP_400_BAD_REQUEST
-
-            if e.code() == StatusCode.NOT_FOUND:
-                status_code = status.HTTP_404_NOT_FOUND
-
-            return Response(e.details(), status=status_code)
+            return self.handle_error(e)
 
         serializer = self.get_serializer(new_user)
         headers = self.get_success_headers(serializer.data)
@@ -85,12 +73,7 @@ class UserViewSet(viewsets.ModelViewSet):
         try:
             self.grpc_client.update_user(int(kwargs.get('pk')), instance)
         except Exception as e:
-            status_code = status.HTTP_400_BAD_REQUEST
-
-            if e.code() == StatusCode.NOT_FOUND:
-                status_code = status.HTTP_404_NOT_FOUND
-
-            return Response(e.details(), status=status_code)
+            return self.handle_error(e)
 
         return Response(serializer.data)
 
@@ -99,14 +82,9 @@ class UserViewSet(viewsets.ModelViewSet):
             Delete a user with provided User ID
         """
         try:
-            self.grpc_client.delete_user(int(kwargs.get('pk')))
+            self.grpc_client.delete_user_by_id(int(kwargs.get('pk')))
         except Exception as e:
-            status_code = status.HTTP_400_BAD_REQUEST
-
-            if e.code() == StatusCode.NOT_FOUND:
-                status_code = status.HTTP_404_NOT_FOUND
-
-            return Response(e.details(), status=status_code)
+            return self.handle_error(e)
 
         return Response(status=status.HTTP_204_NO_CONTENT)
 
