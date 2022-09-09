@@ -72,3 +72,24 @@ class UserViewSet(viewsets.ModelViewSet):
         serializer = self.get_serializer(new_user)
         headers = self.get_success_headers(serializer.data)
         return Response(serializer.data, status=status.HTTP_201_CREATED, headers=headers)
+
+    def update(self, request, *args, **kwargs):
+        """
+            Update a existing user with provided ID and payload fields
+        """
+        partial = kwargs.pop('partial', False)
+        instance = User(**self.request.data)
+        serializer = self.get_serializer(instance, data=request.data, partial=partial)
+        serializer.is_valid(raise_exception=True)
+
+        try:
+            self.grpc_client.update_user(int(kwargs.get('pk')), instance)
+        except Exception as e:
+            status_code = status.HTTP_400_BAD_REQUEST
+
+            if e.code() == StatusCode.NOT_FOUND:
+                status_code = status.HTTP_404_NOT_FOUND
+
+            return Response(e.details(), status=status_code)
+
+        return Response(serializer.data)
