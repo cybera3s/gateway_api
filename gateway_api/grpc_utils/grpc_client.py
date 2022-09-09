@@ -9,6 +9,7 @@ class Client:
     """
         Used for initializing GRPC client and communicate with GRPC Server
     """
+
     def __init__(self):
         self.host = 'localhost'
         self.server_port = 50051
@@ -44,3 +45,17 @@ class Client:
             get a user by provided id then returns fetched User as response
         """
         return self.stub.Retrieve(user_pb2.UserRetrieveRequest(id=id))
+
+    def update_user(self, id: int, user: User) -> user_pb2.User:
+        """
+            updates an existing user with provided user ID and User model as payload
+            then returns updated user object as response
+        """
+        response = self.stub.Update(
+            user_pb2.User(id=id,
+                          username=user.username,
+                          first_name=user.first_name,
+                          last_name=user.last_name,
+                          email=user.email
+                          ))
+        return response
