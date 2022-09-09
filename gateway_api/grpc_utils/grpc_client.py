@@ -59,3 +59,9 @@ class Client:
                           email=user.email
                           ))
         return response
+
+    def delete_user_by_id(self, id: int):
+        """
+            Deletes a user with provided user ID
+        """
+        return self.stub.Destroy(user_pb2.User(id=id))
