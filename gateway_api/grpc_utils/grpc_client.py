@@ -6,6 +6,9 @@ from api.models import User
 
 
 class Client:
+    """
+        Used for initializing GRPC client and communicate with GRPC Server
+    """
     def __init__(self):
         self.host = 'localhost'
         self.server_port = 50051
@@ -14,3 +17,12 @@ class Client:
         self.channel = grpc.insecure_channel('{}:{}'.format(self.host, self.server_port))
         # bind the client and the server
         self.stub = UserControllerStub(self.channel)
+
+    def get_users_list(self) -> list:
+        """
+            returns list of all users fetched from GRPC server
+        """
+        return list(self.stub.List(user_pb2.UserListRequest()))
+
+
+
