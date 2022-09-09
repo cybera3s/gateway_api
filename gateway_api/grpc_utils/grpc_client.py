@@ -39,3 +39,8 @@ class Client:
         )
         return response
 
+    def get_user_by_id(self, id: int) -> user_pb2.User:
+        """
+            get a user by provided id then returns fetched User as response
+        """
+        return self.stub.Retrieve(user_pb2.UserRetrieveRequest(id=id))
