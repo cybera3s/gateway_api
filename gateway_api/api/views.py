@@ -93,3 +93,19 @@ class UserViewSet(viewsets.ModelViewSet):
             return Response(e.details(), status=status_code)
 
         return Response(serializer.data)
+
+    def destroy(self, request, *args, **kwargs):
+        """
+            Delete a user with provided User ID
+        """
+        try:
+            self.grpc_client.delete_user(int(kwargs.get('pk')))
+        except Exception as e:
+            status_code = status.HTTP_400_BAD_REQUEST
+
+            if e.code() == StatusCode.NOT_FOUND:
+                status_code = status.HTTP_404_NOT_FOUND
+
+            return Response(e.details(), status=status_code)
+
+        return Response(status=status.HTTP_204_NO_CONTENT)
