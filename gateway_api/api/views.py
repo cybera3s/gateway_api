@@ -53,3 +53,22 @@ class UserViewSet(viewsets.ModelViewSet):
 
         serializer = self.get_serializer(obj)
         return Response(serializer.data)
+
+    def create(self, request, *args, **kwargs):
+        """
+            Creates a new user with provided payload fields
+        """
+        try:
+            new_user = self.grpc_client.create_new_user(User(**request.data))
+        except Exception as e:
+            # default status code 400
+            status_code = status.HTTP_400_BAD_REQUEST
+
+            if e.code() == StatusCode.NOT_FOUND:
+                status_code = status.HTTP_404_NOT_FOUND
+
+            return Response(e.details(), status=status_code)
+
+        serializer = self.get_serializer(new_user)
+        headers = self.get_success_headers(serializer.data)
+        return Response(serializer.data, status=status.HTTP_201_CREATED, headers=headers)
