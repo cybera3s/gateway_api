@@ -36,4 +36,20 @@ class UserViewSet(viewsets.ModelViewSet):
 
         return Response(serializer.data)
 
+    def retrieve(self, request, *args, **kwargs):
+        """
+            Retrieve a User with provided ID
+        """
+        try:
+            obj = self.grpc_client.get_user_by_id(int(kwargs.get('pk')))
+        except Exception as e:
+            # default status code 400
+            status_code = status.HTTP_400_BAD_REQUEST
 
+            if e.code() == StatusCode.NOT_FOUND:
+                status_code = status.HTTP_404_NOT_FOUND
+
+            return Response(e.details(), status=status_code)
+
+        serializer = self.get_serializer(obj)
+        return Response(serializer.data)
