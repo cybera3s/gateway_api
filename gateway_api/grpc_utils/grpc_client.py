@@ -24,5 +24,18 @@ class Client:
         """
         return list(self.stub.List(user_pb2.UserListRequest()))
 
-
+    def create_new_user(self, user: User) -> user_pb2.User:
+        """
+            creates a new User with provided user object
+            then returns newly created user as response
+        """
+        response = self.stub.Create(
+            user_pb2.User(
+                username=user.username,
+                email=user.email,
+                first_name=user.first_name,
+                last_name=user.last_name
+            )
+        )
+        return response
 
