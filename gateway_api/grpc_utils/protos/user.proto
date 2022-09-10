@@ -18,6 +18,7 @@ message User {
     string email = 3;
     string first_name = 4;
     string last_name = 5;
+    string password = 6;
 }
 
 message UserListRequest {
