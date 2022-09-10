@@ -1,0 +1,10 @@
+venv
+.idea
+.git
+.gitignore
+Gateway API.postman_collection.json
+Dockerfile
+.dockerignore
+*/db.sqlite3
+*_pb2*
+*/__pycache__
