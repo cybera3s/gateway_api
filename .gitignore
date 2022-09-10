@@ -4,4 +4,4 @@ venv
 db.sqlite3
 ~*
 __pycache__
-user_proto_code
+*_pb2*
