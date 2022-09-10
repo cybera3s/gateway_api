@@ -8,6 +8,8 @@ from rest_framework.validators import ValidationError
 from rest_framework import status
 import json
 from grpc import StatusCode
+from django.contrib.auth.hashers import make_password
+
 
 from grpc_utils.grpc_client import Client
 from .models import User
@@ -53,6 +55,7 @@ class UserViewSet(viewsets.ModelViewSet):
             Creates a new user with provided payload fields
         """
         try:
+            request.data['password'] = make_password(request.data['password'])
             new_user = self.grpc_client.create_new_user(User(**request.data))
         except Exception as e:
             return self.handle_error(e)
@@ -66,7 +69,8 @@ class UserViewSet(viewsets.ModelViewSet):
             Update a existing user with provided ID and payload fields
         """
         partial = kwargs.pop('partial', False)
-        instance = User(**self.request.data)
+        request.data['password'] = make_password(request.data['password'])
+        instance = User(**request.data)
         serializer = self.get_serializer(instance, data=request.data, partial=partial)
         serializer.is_valid(raise_exception=True)
 
