@@ -1,7 +1,7 @@
 import grpc
 
-from .user_proto_code import user_pb2
-from .user_proto_code.user_pb2_grpc import UserControllerStub
+from .protos import user_pb2
+from .protos.user_pb2_grpc import UserControllerStub
 from api.models import User
 
 
@@ -35,7 +35,8 @@ class Client:
                 username=user.username,
                 email=user.email,
                 first_name=user.first_name,
-                last_name=user.last_name
+                last_name=user.last_name,
+                password=user.password
             )
         )
         return response
@@ -56,7 +57,8 @@ class Client:
                           username=user.username,
                           first_name=user.first_name,
                           last_name=user.last_name,
-                          email=user.email
+                          email=user.email,
+                          password=user.password
                           ))
         return response
 
