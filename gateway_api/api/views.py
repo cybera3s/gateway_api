@@ -66,19 +66,17 @@ class UserViewSet(viewsets.ModelViewSet):
 
     def update(self, request, *args, **kwargs):
         """
-            Update a existing user with provided ID and payload fields
+            Update an existing user with provided ID and payload fields
         """
-        partial = kwargs.pop('partial', False)
         request.data['password'] = make_password(request.data['password'])
         instance = User(**request.data)
-        serializer = self.get_serializer(instance, data=request.data, partial=partial)
-        serializer.is_valid(raise_exception=True)
 
         try:
-            self.grpc_client.update_user(int(kwargs.get('pk')), instance)
+            updated_user = self.grpc_client.update_user(int(kwargs.get('pk')), instance)
         except Exception as e:
             return self.handle_error(e)
 
+        serializer = self.get_serializer(updated_user)
         return Response(serializer.data)
 
     def destroy(self, request, *args, **kwargs):
