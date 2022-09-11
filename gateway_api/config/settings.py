@@ -11,11 +11,9 @@ https://docs.djangoproject.com/en/4.0/ref/settings/
 """
 import os
 import environ
-
 # environment schema
 env = environ.Env(
     SECRET_KEY=(str, 'thf7^bx2ngwo=%)5#0mi#$i-g5iv-dk08q$wti**u%#=_xmr&!'),
-    DEBUG=(bool, True),
     GRPC_SERVER_HOST=(str, 'management'),
     GRPC_SERVER_PORT=(int, 50051)
 )
@@ -32,7 +30,7 @@ environ.Env.read_env(os.path.join(BASE_DIR, '.env'))
 SECRET_KEY = env('SECRET_KEY')
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = env('DEBUG')
+DEBUG = True
 
 ALLOWED_HOSTS = env.list("ALLOWED_HOSTS", default=['*'])
 
