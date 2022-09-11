@@ -8,3 +8,4 @@ Dockerfile
 db.sqlite3
 *_pb2*
 **/__pycache__
+*.log
