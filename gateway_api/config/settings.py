@@ -131,3 +131,7 @@ STATIC_ROOT = BASE_DIR / 'static'
 
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 AUTH_USER_MODEL = "api.User"
+
+# GRPC variables
+GRPC_SERVER_HOST = env('GRPC_SERVER_HOST')
+GRPC_SERVER_PORT = env('GRPC_SERVER_PORT')
