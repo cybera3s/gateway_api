@@ -133,3 +133,38 @@ AUTH_USER_MODEL = "api.User"
 # GRPC variables
 GRPC_SERVER_HOST = os.environ.get('GRPC_SERVER_HOST', 'management')
 GRPC_SERVER_PORT = env('GRPC_SERVER_PORT')
+
+# Logging configuration
+LOGGING = {
+    'version': 1,
+    'disable_existing_loggers': False,
+    'formatters': {
+        'simple-formatter': {
+            'format': '{levelname}|{asctime}|{message}',
+            'style': '{'
+        },
+    },
+
+    'handlers': {
+        'console-handler': {
+            'class': 'logging.StreamHandler',  # Console print!
+        },
+        'file-handler': {
+            'class': 'logging.FileHandler',  # Write file!
+            'filename': BASE_DIR.joinpath('logs', 'access.log'),
+            'formatter': 'simple-formatter',
+        },
+    },
+    'root': {
+        'handlers': ['console-handler'],
+        'level': 'INFO',
+    },
+    'loggers': {
+        'django.server': {
+            'handlers': ['file-handler'],
+            'level': 'INFO',
+            'propagate': True,
+        },
+
+    }
+}
