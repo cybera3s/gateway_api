@@ -3,6 +3,7 @@ import grpc
 from .protos import user_pb2
 from .protos.user_pb2_grpc import UserControllerStub
 from api.models import User
+from django.conf import settings
 
 
 class Client:
@@ -11,8 +12,8 @@ class Client:
     """
 
     def __init__(self):
-        self.host = 'localhost'
-        self.server_port = 50051
+        self.host = settings.GRPC_SERVER_HOST
+        self.server_port = settings.GRPC_SERVER_PORT
 
         # instantiate a channel
         self.channel = grpc.insecure_channel('{}:{}'.format(self.host, self.server_port))
