@@ -9,6 +9,16 @@ https://docs.djangoproject.com/en/4.0/topics/settings/
 For the full list of settings and their values, see
 https://docs.djangoproject.com/en/4.0/ref/settings/
 """
+import os
+import environ
+
+# environment schema
+env = environ.Env(
+    SECRET_KEY=(str, 'thf7^bx2ngwo=%)5#0mi#$i-g5iv-dk08q$wti**u%#=_xmr&!'),
+    DEBUG=(bool, True),
+    GRPC_SERVER_HOST=(str, 'management'),
+    GRPC_SERVER_PORT=(int, 50051)
+)
 
 from pathlib import Path
 
