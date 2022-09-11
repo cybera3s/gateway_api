@@ -8,11 +8,11 @@ ENV PYTHONUNBUFFERED 1
 
 WORKDIR /gateway
 # copy and install requirements
-ADD gateway/requirements.txt .
+ADD gateway_api/requirements.txt .
 # RUN python -m pip install --upgrade pip
 RUN pip install -r requirements.txt
 
-ADD gateway/gateway_api/ .
+ADD gateway_api/gateway_api/ .
 
 # Create user with associated group and assign permissions of current directory to it
 RUN groupadd -r api && useradd --no-log-init -r -s /bin/bash -g api api && \
