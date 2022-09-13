@@ -100,7 +100,10 @@ class UserViewSet(viewsets.ModelViewSet):
         # default status code 400
         status_code = status.HTTP_400_BAD_REQUEST
 
-        if err.code() == StatusCode.NOT_FOUND:
+        if hasattr(err, 'code') and err.code() == StatusCode.NOT_FOUND:
             status_code = status.HTTP_404_NOT_FOUND
+            response = err.details()
+        else:
+            response = str(err)
 
-        return Response(err.details(), status=status_code)
+        return Response(response, status=status_code)
