@@ -10,7 +10,6 @@ import json
 from grpc import StatusCode
 from django.contrib.auth.hashers import make_password
 
-
 from grpc_utils.grpc_client import Client
 from .models import User
 from .serializers import UserSerializer
@@ -21,10 +20,12 @@ class UserViewSet(viewsets.ModelViewSet):
         Fetch and Managing Users
     """
 
-    queryset = User.objects.all()
     serializer_class = UserSerializer
     http_method_names = ["get", "post", "put", "delete"]
     grpc_client = Client()
+
+    def get_queryset(self):
+        return None
 
     def list(self, request, *args, **kwargs):
         """
