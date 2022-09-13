@@ -8,13 +8,3 @@ class UserSerializer(serializers.ModelSerializer):
         fields = ("id", "username", "first_name", "last_name", "email", "password")
         extra_kwargs = {'password': {'write_only': True}}
 
-    def save(self, **kwargs):
-        """
-        overwrites save method to implement on the fly create and update
-        """
-        validated_data = {**self.validated_data, **kwargs}
-        # updating
-        if self.instance is not None:
-            self.instance = User(**validated_data)
-
-        return self.instance
